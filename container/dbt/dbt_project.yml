@@ -1,0 +1,20 @@
+name: medallion_lab
+version: '1.0.0'
+config-version: 2
+profile: medallion_lab
+model-paths: [models]
+test-paths: [tests]
+models:
+  medallion_lab:
+    staging:
+      +materialized: ephemeral
+    silver:
+      +schema: silver
+      +materialized: table
+      +table_type: iceberg
+      +format: parquet
+    gold:
+      +schema: gold
+      +materialized: table
+      +table_type: iceberg
+      +format: parquet

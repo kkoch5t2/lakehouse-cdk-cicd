@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+cdk.out/
+.lab*.json
+.env*
+!.env.example
+evidence/
+**/target/
+**/logs/
+*.zip
+/scripts/deploy.ps1

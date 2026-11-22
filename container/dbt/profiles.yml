@@ -1,0 +1,13 @@
+medallion_lab:
+  target: lab
+  outputs:
+    lab:
+      type: athena
+      region_name: "{{ env_var('AWS_DEFAULT_REGION', 'ap-southeast-2') }}"
+      database: awsdatacatalog
+      schema: medallion_lab
+      work_group: "{{ env_var('ATHENA_WORKGROUP') }}"
+      s3_staging_dir: "s3://{{ env_var('RESULTS_BUCKET') }}/medallion-lab/query-results/"
+      s3_data_dir: "s3://{{ env_var('DATA_BUCKET') }}/medallion-lab/tables/"
+      s3_data_naming: schema_table_unique
+      threads: 1

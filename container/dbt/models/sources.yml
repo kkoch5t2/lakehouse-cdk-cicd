@@ -1,0 +1,18 @@
+version: 2
+sources:
+  - name: bronze
+    database: awsdatacatalog
+    schema: medallion_lab_bronze
+    tables:
+      - name: orders_raw
+models:
+  - name: orders_clean
+    columns:
+      - name: order_id
+        data_tests: [not_null, unique]
+      - name: amount
+        data_tests: [not_null]
+  - name: daily_sales
+    columns:
+      - name: order_date
+        data_tests: [not_null, unique]
