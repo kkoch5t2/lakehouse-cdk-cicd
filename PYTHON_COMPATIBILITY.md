@@ -32,6 +32,10 @@ No compatibility metadata overrides or unmerged upstream code are used.
 - Docker image build, native wheel build, pip check and dbt parse passed with the existing requirements.lock.
 - Compatibility build: PipelineAssetsDockerAssetA7-9M9QE44vApbn:b1284d5a-301b-4f9f-b814-0074416a610d (SUCCEEDED).
 
+## Deployment verification
+
+The updated pipeline completed test and prod validation successfully on Python 3.14.10: c3851ba8-10c8-4693-af78-40c5d7f266e0. Both environments passed 3 models, 8 dbt tests and all four independent Athena expected-value checks. See VALIDATION.md for the complete result.
+
 ## Sources
 
 - https://www.python.org/downloads/release/python-3152/

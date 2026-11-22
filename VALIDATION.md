@@ -16,7 +16,32 @@
 
 修正：sum(amount)へ復元。WebhookV2で起動し、Test成功・手動承認・Prod成功。両環境の固定期待値照合が成功。
 
-最終使用イメージ：`sha256:077c7685cbfa40efee36064ff2911cf73260d612c38c39cc3c6c0a2747bfc855`。testとprodで一致。両環境の実行中Fargateタスクは0。
+初回・故障・修正の3ケースで最終的に使用したイメージ：`sha256:077c7685cbfa40efee36064ff2911cf73260d612c38c39cc3c6c0a2747bfc855`。testとprodで一致。両環境の実行中Fargateタスクは0。
+
+## Python 3.14への統一と再検証（2026-11-23 / Asia/Tokyo）
+
+操作端末の仮想環境、CodeBuild、dbt用FargateコンテナーをPython 3.14系に統一しました。既存の依存ロックとSQL・テストは変更していません。
+
+| 確認対象 | 結果 |
+| --- | --- |
+| NAB7のプロジェクト仮想環境 | Python 3.14.10、pip check成功、構成テスト2件成功 |
+| CodeBuild | 全5プロジェクトのruntime-versionsを3.14へ更新。更新後のSynthでPython 3.14.10と構成テスト2件の成功を確認 |
+| dbtイメージ | python:3.14.10-slim。別ステージでネイティブ依存をビルド。Dockerビルド、pip check、dbt parse成功 |
+| test | Python 3.14.10 / dbt-core 1.12.6 / dbt-athena 1.11.1。3モデル・8データテスト成功 |
+| prod | Python 3.14.10 / dbt-core 1.12.6 / dbt-athena 1.11.1。3モデル・8データテスト成功 |
+| 両環境の期待値照合 | Bronze 8行、Silver正常4行・不正3行、Gold 2026-11-01の注文2件・売上3850.00 |
+
+- 対象コミット: 9b471d6393d74e7e7bcc550b3138932dcdb8aa9f
+- 成功したCodePipeline実行: c3851ba8-10c8-4693-af78-40c5d7f266e0
+- PR: https://github.com/kkoch5t2/lakehouse-cdk-cicd/pull/1
+- 最初の実行6358330d-6dd6-4a6e-8789-9809e0c740aeはSelfMutate成功後にCancelledとなり、更新されたパイプラインが同じコミットで再実行されました。上記は再実行の成功記録です。
+- Test成功後に学習用prodへの手動承認を実施し、Prodの検証まで成功しました。
+- 実行時のバージョンはCloudWatch LogsのRuntime行と結果バケットのruntime.jsonへ保存。両環境のコンテナー終了コードは0、タスクはSTOPPEDです。
+- 以降の料金概算は初回・故障・修正の3ケースのみが対象で、Python更新の追加ビルド・再検証の実行料は含みません。
+
+Python 3.14のtest・prodでイメージダイジェストが一致: sha256:0194934a722c1f961ea9014eb49516f3b715709ba73b17c90310951c45170901.
+
+再検証後の実行中Fargateタスクは両環境とも0です。
 
 ## コスト概算
 
