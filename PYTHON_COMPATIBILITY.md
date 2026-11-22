@@ -1,8 +1,8 @@
-# Python 3.15 compatibility investigation
+# Python runtime compatibility
 
 Date: 2026-11-23 (Asia/Tokyo)
 
-## Verified results
+## Earlier Python 3.15 probe
 
 | Component | Result |
 | --- | --- |
@@ -16,11 +16,21 @@ Date: 2026-11-23 (Asia/Tokyo)
 
 The failed compatibility build did not deploy workloads or run Athena/dbt against the test/prod environments.
 
-## Proposed scope
+## Selected runtime
 
-Use Python 3.15 for local CDK and CodeBuild, while retaining the validated Python 3.12 dbt/Fargate runtime. The dependency lock remains unchanged. The runner records its actual Python/dbt versions as runtime.json so the two runtime scopes can be verified separately.
+Use Python 3.14 consistently for local CDK, CodeBuild and dbt/Fargate. The container uses python:3.14.10-slim; native dependencies are compiled in a separate builder stage. The dependency lock remains unchanged. Actual Fargate Python/dbt versions are printed and stored as runtime.json.
+
+Python 3.14 verification results are recorded in VALIDATION.md. The table above records the earlier Python 3.15 probe, not the final deployed runtime.
 
 No compatibility metadata overrides or unmerged upstream code are used.
+
+## Python 3.14 pre-deployment checks
+
+- NAB7 project virtual environment: CPython 3.14.10; requirements installation, pip check and both structural tests passed.
+- CodeBuild standard:7.0: Python 3.14.10 selected.
+- Linux/AMD64 container: Python 3.14.10, dbt-core 1.12.6, dbt-athena 1.11.1.
+- Docker image build, native wheel build, pip check and dbt parse passed with the existing requirements.lock.
+- Compatibility build: PipelineAssetsDockerAssetA7-9M9QE44vApbn:b1284d5a-301b-4f9f-b814-0074416a610d (SUCCEEDED).
 
 ## Sources
 

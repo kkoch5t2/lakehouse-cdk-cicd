@@ -21,7 +21,7 @@ class LakehousePipeline(Stack):
                 build_environment=codebuild.BuildEnvironment(build_image=codebuild.LinuxBuildImage.STANDARD_7_0,
                     compute_type=codebuild.ComputeType.SMALL),
                 partial_build_spec=codebuild.BuildSpec.from_object({"phases":{"install":{
-                    "runtime-versions":{"python":"3.15","nodejs":22}}}}),
+                    "runtime-versions":{"python":"3.14","nodejs":22}}}}),
                 timeout=Duration.minutes(20)),
             self_mutation_code_build_defaults=pipelines.CodeBuildOptions(
                 build_environment=codebuild.BuildEnvironment(environment_variables={
