@@ -43,7 +43,7 @@ $env:PIPELINE_ACCOUNT = '111111111111'
 $env:TEST_ACCOUNT = '222222222222'
 $env:PROD_ACCOUNT = '333333333333'
 $env:AWS_REGION = 'ap-southeast-2'
-$env:GITHUB_REPOSITORY = 'YOUR_OWNER/lakehouse-cdk-cicd-public'
+$env:GITHUB_REPOSITORY = 'YOUR_OWNER/lakehouse-cdk-cicd'
 $env:CONNECTION_ARN = 'YOUR_CODECONNECTIONS_ARN'
 
 # CI/CDアカウントと、CI/CDからのデプロイを信頼する2環境を初期化する

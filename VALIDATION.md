@@ -29,7 +29,7 @@ Fargate、パブリックIPv4、Athena、S3、ECR、CloudWatch Logs、Step Funct
 - CodePipelineの実行・アクション履歴、CodeBuildログ、dbt manifest/run_results/dbt.log/exit.json、Athena照合結果をNAB7のevidence/配下へ保存。
 - 初期接続Pendingに伴うSource失敗2件はデータ品質故障テストと区別。
 - 図・手動承認待ち・初回成功・故障時Test失敗/Prod未実行・故障後の本番売上・修正後成功を撮影。
-- この公開用リポジトリは、検証時に使用した修正済みコード（元のコミットa6b5c644）を、個人メールを含む履歴を引き継がずに登録したものです。表のコミットIDは検証当時の記録です。
+- このリポジトリには、検証時に使用した修正済みコード（検証当時のコミットa6b5c644）を収録しています。公開前にGit履歴を整理したため、表のコミットIDは現在のリポジトリの履歴とは異なります。
 - S3/ECR/KMS/CDKToolkit等は確認用に保持。保存・維持料金は継続。ECSサービス、EC2、NAT Gateway、ALB、スケジュールは未作成。
 - 実データ、多重起動制御、増分処理、全モデルの一括ロールバック、Lake Formationによる権限制御は今回の対象外。
 
