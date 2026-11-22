@@ -1,6 +1,6 @@
 # CDK PipelinesでデータレイクハウスのCI/CDを検証する
 
-前回の [medallion-fargate-lab](https://github.com/kkoch5t2/medallion-fargate-lab) のSQL・dbtテスト・Fargate用テンプレートを再利用する学習用プロジェクトです。
+[medallion-fargate-lab](https://github.com/kkoch5t2/medallion-fargate-lab) のSQL・dbtテスト・Fargate用テンプレートを利用し、AWS CDK PipelinesによるデータレイクハウスのCI/CDを検証する学習用プロジェクトです。
 
 ## 構成と流れ
 
@@ -103,4 +103,4 @@ CDKToolkitも別スタックです。他プロジェクトと共用する場合�
 - [CDK bootstrap](https://docs.aws.amazon.com/cdk/v2/guide/bootstrapping.html)
 - [Deploy data lake ETL jobs using CDK Pipelines](https://aws.amazon.com/blogs/devops/deploying-data-lake-etl-jobs-using-cdk-pipelines/)
 
-公式のCDK Pipelines設計を参考に、以前のdbt・Fargate構成を接続した検証案です。AWSブログのGlue ETLサンプルそのものとは構成が異なります。
+AWS公式のCDK Pipelines設計を参考に、dbt・Athena・Fargateによるデータ処理を組み込んだ検証プロジェクトです。AWSブログのGlue ETLサンプルとは構成が異なります。
