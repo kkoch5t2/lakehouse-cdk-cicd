@@ -1,3 +1,4 @@
+import platform
 """Run the deployed workflow and assert independent expected data. Fails the pipeline on any mismatch."""
 import json
 import os
@@ -22,6 +23,7 @@ def wait_for(poll, success, failed, timeout=720):
     raise TimeoutError("Verification exceeded timeout")
 
 def main():
+    print("Verification runtime: Python " + platform.python_version(), flush=True)
     region=os.environ["AWS_REGION"]
     credentials=boto3.client("sts",region_name=region).assume_role(
         RoleArn=os.environ["VALIDATION_ROLE"],RoleSessionName="lakehouse-verification")["Credentials"]

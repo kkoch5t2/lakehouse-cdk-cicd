@@ -21,11 +21,11 @@
 
 ## 初期設定
 
-Python 3.12、Node.js、AWS CLI、CDK CLIを用意します。Dockerを手元へインストールする必要はありません。コード中ではCDK CLI 2.1149.0とaws-cdk-lib 2.278.0を使用します。
+Python 3.14、Node.js、AWS CLI、CDK CLIを用意します。Dockerを手元へインストールする必要はありません。コード中ではCDK CLI 2.1149.0とaws-cdk-lib 2.278.0を使用します。
 
 ```powershell
 # Python環境を作り、CDKと操作用ライブラリを導入する
-py -3.12 -m venv .venv
+py -3.14 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
 npm install -g aws-cdk@2.1149.0
@@ -60,6 +60,12 @@ python -m unittest discover -s tests -v
 cdk synth
 cdk deploy LakehousePipeline --profile lakehouse-cicd
 ```
+
+操作端末の仮想環境、CodeBuildの`runtime-versions`、dbt用FargateコンテナーをPython 3.14系に統一しています。コンテナーは`python:3.14.10-slim`を使用し、ネイティブ依存のビルドツールは別のビルドステージにのみ導入します。
+
+Python 3.15では、dbt-core 1.12.6の必須依存MetricFlowのPython上限（<3.15）により依存解決に失敗したため、3.14を選びました。経緯は[PYTHON_COMPATIBILITY.md](PYTHON_COMPATIBILITY.md)、実行結果は[VALIDATION.md](VALIDATION.md)を参照してください。
+
+Fargateの実際のPython・dbtバージョンはCloudWatch Logsの`Runtime:`行と、結果バケットの実行別ディレクトリに保存する`runtime.json`で確認できます。
 
 bootstrapのCloudFormation実行ロールには、この検証ではAdministratorAccessを指定します。本番運用への流用時は、実際のデプロイ対象に合わせたポリシーへ制限してください。CI/CDアカウントへのコード変更権限は各環境のデプロイ権限につながります。
 
