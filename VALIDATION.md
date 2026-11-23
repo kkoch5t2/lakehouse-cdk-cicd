@@ -1,5 +1,17 @@
 # 検証記録（2026-11-22 / Asia/Tokyo）
 
+## 検証リソースの削除（2026-11-23 / Asia/Tokyo）
+
+test・prodのワークロード、CI/CDスタック、3アカウントの専用CDKToolkitを削除しました。6スタックすべてのDELETE_COMPLETEと、サービスAPIによる対象リソースの削除を確認済みです。
+
+- S3: 8バケットを全バージョン・削除マーカーとともに削除。Retainのデータ・結果・成果物バケットも削除。
+- ECR: 3リポジトリとコンテナーイメージを削除。
+- CodePipeline・CodeBuild 5プロジェクト、関連IAMロール、専用CodeConnections接続、CloudWatch Logs 7グループを削除。
+- test・prodのGlueデータベース・テーブル、Athenaワークグループ、ECS・VPC・Step Functionsと関連EventBridgeルールを削除。Athenaワークグループは空ではなかったため、再帰削除してからCloudFormationの削除を完了。
+- KMS: 暗号化用キー1件はAWSの必須待機期間によりPendingDeletion。最短7日で予約し、削除予定日時は2026-11-30 15:29 JST。
+- 検証画像・実行ログ・S3の検証データ・照合結果は削除前に退避。以下の検証結果は削除前に取得した記録です。
+- GitHubのソースコードは再構築用として保持。AWSアカウント・他の検証プロジェクトは削除対象外です。
+
 ## 実行結果
 
 | ケース | コミット | 実行ID | 結果 | 全体時間 |
@@ -55,7 +67,7 @@ Fargate、パブリックIPv4、Athena、S3、ECR、CloudWatch Logs、Step Funct
 - 初期接続Pendingに伴うSource失敗2件はデータ品質故障テストと区別。
 - 図・手動承認待ち・初回成功・故障時Test失敗/Prod未実行・故障後の本番売上・修正後成功を撮影。
 - このリポジトリには、検証時に使用した修正済みコード（検証当時のコミットa6b5c644）を収録しています。公開前にGit履歴を整理したため、表のコミットIDは現在のリポジトリの履歴とは異なります。
-- S3/ECR/KMS/CDKToolkit等は確認用に保持。保存・維持料金は継続。ECSサービス、EC2、NAT Gateway、ALB、スケジュールは未作成。
+- 検証直後はS3/ECR/KMS/CDKToolkit等を確認用に保持していました。2026-11-23の片付け結果は上記を参照。ECSサービス、EC2、NAT Gateway、ALB、スケジュールは未作成。
 - 実データ、多重起動制御、増分処理、全モデルの一括ロールバック、Lake Formationによる権限制御は今回の対象外。
 
 ## 参照
